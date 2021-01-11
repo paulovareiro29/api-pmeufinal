@@ -19,23 +19,23 @@ class CarreiraDAO extends Connection {
             $paragens = array();
 
             foreach($this->db->carreiraparagem()->where('carreira_id',$carreira['id']) as $carreiraparagem) {
-                    $horarios = array();
+                $horarios = array();
 
-                    foreach($this->db->horario()->where('carreiraparagem_id', $carreiraparagem['id']) as $horario){
-                        array_push($horarios, $horario['hora'] . ':' . (strlen($horario['minutos']) == 1 ? '0' . $horario['minutos'] : $horario['minutos']));
-                    }
-
-                    $paragem = $this->db->paragem[$carreiraparagem['paragem_id']];
-                    array_push($paragens,[
-                        "id"=>  $paragem['id'],
-                        "longitude" => $paragem['longitude'],
-                        "latitude" => $paragem['latitude'],
-                        "rua" =>  $paragem['rua'],
-                        "cidade" => $paragem['cidade'],
-                        "cod_postal" => $paragem['cod_postal'],
-                        "horarios" => $horarios
-                    ]);
+                foreach($this->db->horario()->where('carreiraparagem_id', $carreiraparagem['id']) as $horario){
+                    array_push($horarios, $horario['hora'] . ':' . (strlen($horario['minutos']) == 1 ? '0' . $horario['minutos'] : $horario['minutos']));
                 }
+
+                $paragem = $this->db->paragem[$carreiraparagem['paragem_id']];
+                array_push($paragens,[
+                    "id"=>  $paragem['id'],
+                    "longitude" => $paragem['longitude'],
+                    "latitude" => $paragem['latitude'],
+                    "rua" =>  $paragem['rua'],
+                    "cidade" => $paragem['cidade'],
+                    "cod_postal" => $paragem['cod_postal'],
+                    "horarios" => $horarios
+                ]);
+            }
 
             array_push($data,[
                 'id' => $carreira['id'],
